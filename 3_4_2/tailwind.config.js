@@ -8,5 +8,6 @@ module.exports = {
   theme: {
     extend: {},
   },
+  darkMode: "media", //media: 사용자의 os 세팅기준 , class: 최상단 태그에 수동으로 부여
   plugins: [],
 };
