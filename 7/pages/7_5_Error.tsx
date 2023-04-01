@@ -15,7 +15,7 @@ export default function Forms() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>({
-    mode: "onChange",
+    mode: "onChange", // input value 가 cahnge될때마다 validation 진행
   });
   const onValid = (data: LoginForm) => {
     console.log("im valid bby");
