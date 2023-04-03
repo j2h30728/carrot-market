@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 import { useForm } from "react-hook-form";
 interface EnterForm {
   email?: string;
