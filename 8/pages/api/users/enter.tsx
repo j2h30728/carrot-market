@@ -2,8 +2,10 @@ import client from "@/libs/server/client";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import twilio from "twilio";
+import mail from "@sendgrid/mail";
 
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
 async function handler(
   req: NextApiRequest,
@@ -37,7 +39,17 @@ async function handler(
       body: `Your login token is ${payload}`,
     });
     console.log(message);
+  } else if (email) {
+    const sendEmail = await mail.send({
+      from: "2148072@naver.com",
+      to: "2148072@naver.com",
+      subject: "캐럿마켓",
+      text: `Your Carrot Market Verificaion Email`,
+      html: `<strong>Your token is ${payload}</strong>`,
+    });
+    console.log("email", sendEmail);
   }
+
   console.log(token);
   return res.status(201).json({ ok: true, text: "로그인 되었습니다." });
 }
