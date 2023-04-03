@@ -5,6 +5,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(401).end();
   }
 
-  console.log("sever", req.body.email);
-  res.status(201).end();
+  console.log("sever", req.body);
+  return res.status(201).json({ email: req.body.email, phone: req.body.phone });
 }
