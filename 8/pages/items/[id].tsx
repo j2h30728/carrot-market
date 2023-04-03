@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Button from "../../components/button";
-import Layout from "../../components/layout";
+import Button from "@/components/button";
+import Layout from "@/components/layout";
 
 const ItemDetail: NextPage = () => {
   return (
@@ -39,8 +39,7 @@ const ItemDetail: NextPage = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  aria-hidden="true"
-                >
+                  aria-hidden="true">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
