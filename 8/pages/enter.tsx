@@ -4,7 +4,6 @@ import Button from "../components/button";
 import Input from "../components/input";
 import { cls } from "../libs/utils";
 import { useForm } from "react-hook-form";
-
 interface EnterForm {
   email?: string;
   phone?: string;
@@ -24,6 +23,13 @@ const Enter: NextPage = () => {
 
   const onValid = (data: EnterForm) => {
     console.log(data);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
@@ -60,7 +66,7 @@ const Enter: NextPage = () => {
           className="flex flex-col mt-8 space-y-4">
           {method === "email" ? (
             <Input
-              register={register("email")}
+              register={register("email", { required: "required" })}
               label="Email address"
               type="email"
               name="email"
