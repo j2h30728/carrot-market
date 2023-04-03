@@ -1,11 +1,18 @@
 import client from "@/libs/server/client";
-import withHandler from "@/libs/server/withHandler";
+import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+import twilio from "twilio";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log("sever", req.body);
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) {
   const { email, phone } = req.body;
-  const user = phone ? { phone: +phone } : { email };
+  const user = phone ? { phone: +phone } : email ? { email } : null;
+  if (!user)
+    return res.status(400).json({ ok: false, text: "입력부탁드립니다." });
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({
     data: {
@@ -23,8 +30,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
+  if (phone) {
+    const message = await twilioClient.messages.create({
+      messagingServiceSid: process.env.TWILIO_MSID,
+      to: process.env.MY_PHONE as string,
+      body: `Your login token is ${payload}`,
+    });
+    console.log(message);
+  }
   console.log(token);
-  return res.status(201).json({ text: "로그인 되었습니다." });
+  return res.status(201).json({ ok: true, text: "로그인 되었습니다." });
 }
 
 export default withHandler("POST", handler);
