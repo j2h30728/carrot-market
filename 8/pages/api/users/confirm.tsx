@@ -26,4 +26,6 @@ async function handler(
   });
   return res.status(201).json({ ok: true, text: "토큰 확인되었습니다." });
 }
-export default withApiSession(withHandler({ method: "POST", handler }));
+export default withApiSession(
+  withHandler({ method: "POST", handler, isPrivate: false })
+);

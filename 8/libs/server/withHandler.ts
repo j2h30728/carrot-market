@@ -20,7 +20,7 @@ export default function withHandler({
       return res.status(405).end();
     }
     if (isPrivate && !req.session.user) {
-      return res.status(401).json({ ok: false, error: "로그인 부탁드립니다." });
+      return res.status(401).json({ ok: false, error: "잘못된 접근입니다." });
     }
     try {
       await handler(req, res);
