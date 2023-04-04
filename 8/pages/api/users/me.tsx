@@ -14,21 +14,13 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { token } = req.body;
-  const exisist = await client.token.findUnique({
+  console.log(req.session.user);
+  const profile = await client.user.findUnique({
     where: {
-      payload: token,
+      id: req.session.user?.id,
     },
   });
-  if (!exisist)
-    return res.status(404).json({ ok: false, text: "잘못된 토큰입니다." });
-  req.session.user = {
-    id: exisist?.userId,
-  };
-  await req.session.save();
-  console.log(token);
-  console.log(exisist);
-  return res.status(201).json({ ok: true, text: "토큰 확인되었습니다." });
+  return res.status(201).json({ ok: true, profile });
 }
 
 export default withIronSessionApiRoute(withHandler("POST", handler), {
