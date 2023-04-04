@@ -54,4 +54,4 @@ async function handler(
   return res.status(201).json({ ok: true, text: "로그인 되었습니다." });
 }
 
-export default withHandler("POST", handler);
+export default withHandler({ method: "POST", handler, isPrivate: false });
