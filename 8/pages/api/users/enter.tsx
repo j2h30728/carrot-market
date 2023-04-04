@@ -33,21 +33,21 @@ async function handler(
     },
   });
   if (phone) {
-    const message = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_MSID,
-      to: process.env.MY_PHONE as string,
-      body: `Your login token is ${payload}`,
-    });
-    console.log(message);
+    // const message = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_MSID,
+    //   to: process.env.MY_PHONE as string,
+    //   body: `Your login token is ${payload}`,
+    // });
+    // console.log(message);
   } else if (email) {
-    const sendEmail = await mail.send({
-      from: "2148072@naver.com",
-      to: "2148072@naver.com",
-      subject: "캐럿마켓",
-      text: `Your Carrot Market Verificaion Email`,
-      html: `<strong>Your token is ${payload}</strong>`,
-    });
-    console.log("email", sendEmail);
+    // const sendEmail = await mail.send({
+    //   from: "2148072@naver.com",
+    //   to: "2148072@naver.com",
+    //   subject: "캐럿마켓",
+    //   text: `Your Carrot Market Verificaion Email`,
+    //   html: `<strong>Your token is ${payload}</strong>`,
+    // });
+    // console.log("email", sendEmail);
   }
 
   console.log(token);
