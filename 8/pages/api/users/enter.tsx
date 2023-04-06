@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import twilio from "twilio";
 import mail from "@sendgrid/mail";
 
-const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
-mail.setApiKey(process.env.SENDGRID_API_KEY as string);
+// const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+// mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
 async function handler(
   req: NextApiRequest,
