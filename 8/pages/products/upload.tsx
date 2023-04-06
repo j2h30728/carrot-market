@@ -7,24 +7,44 @@ import { useRouter } from "next/router";
 import useMutation from "@/libs/client/useMutation";
 import { Product } from "@prisma/client";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 interface UploadProductMutation {
   ok: boolean;
   product: Product; //prisma에서 제공해주느 타입기능~
 }
+interface UploadProductForm {
+  name: string;
+  price: number;
+  description: string;
+}
 
 const Upload: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UploadProductForm>();
   const router = useRouter();
   const [uploadProduct, { loading, data }] =
     useMutation<UploadProductMutation>("/api/products");
+  const onValid = (data: UploadProductForm) => {
+    console.log("test");
+    if (loading) return;
+    uploadProduct(data);
+  };
+  const onerror = (error: any) => {
+    console.log(error);
+  };
   useEffect(() => {
     if (data?.ok) {
       router.push(`/products/${data.product.id}`);
     }
   }, [data, router]);
+
   return (
     <Layout canGoBack title="Upload Product">
-      <form className="p-4 space-y-4">
+      <form className="p-4 space-y-4" onSubmit={handleSubmit(onValid, onerror)}>
         <div>
           <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
             <svg
@@ -43,10 +63,28 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <Input required label="Name" name="name" type="text" />
-        <Input required label="Price" name="price" type="text" kind="price" />
-        <TextArea name="description" label="Description" />
-        <Button text="Upload item" />
+        <Input
+          register={register("name", { required: true })}
+          required
+          label="Name"
+          name="name"
+          type="text"
+        />
+        <Input
+          register={register("price", { required: true })}
+          required
+          label="Price"
+          name="price"
+          type="text"
+          kind="price"
+        />
+        <TextArea
+          register={register("description", { required: true })}
+          name="description"
+          label="Description"
+          required
+        />
+        <Button text={loading ? "Loading..." : "Upload item"} />
       </form>
     </Layout>
   );
