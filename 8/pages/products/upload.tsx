@@ -3,8 +3,25 @@ import Button from "@/components/button";
 import TextArea from "@/components/textarea";
 import Input from "@/components/input";
 import Layout from "@/components/layout";
+import { useRouter } from "next/router";
+import useMutation from "@/libs/client/useMutation";
+import { Product } from "@prisma/client";
+import { useEffect } from "react";
+
+interface UploadProductMutation {
+  ok: boolean;
+  product: Product; //prisma에서 제공해주느 타입기능~
+}
 
 const Upload: NextPage = () => {
+  const router = useRouter();
+  const [uploadProduct, { loading, data }] =
+    useMutation<UploadProductMutation>("/api/products");
+  useEffect(() => {
+    if (data?.ok) {
+      router.push(`/products/${data.product.id}`);
+    }
+  }, [data, router]);
   return (
     <Layout canGoBack title="Upload Product">
       <form className="p-4 space-y-4">

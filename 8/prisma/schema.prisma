@@ -42,8 +42,8 @@ model Product {
   userId     Int
   image      String
   name       String
-  prcie      Int
-  decription String   @db.MediumText
+  price      Int
+  description String   @db.MediumText
 
   @@index([userId])
 }
