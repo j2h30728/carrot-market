@@ -28,11 +28,20 @@ const ItemDetail: NextPage = () => {
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
-  const onFavClick = () => {
+  const onFavClick = () => {interface ProductWithCount extends Product {
+    _count: {
+      favs: number;
+    };
+  }
+  interface ProductsResponse {
+    ok: boolean;
+    products: ProductWithCount[];
+  }
+  
     if (!data) return;
     boundMutate(prev => prev && { ...prev, isLiked: !prev.isLiked }, false);
 
-    //묻고 따지지도 않고 로그인창으로 갑니당 슈슝
+    //묻고 따지지도 않고  로그인창으로 갑니당 슈슝
     //unBoundMutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
 
     toggleFav({});
