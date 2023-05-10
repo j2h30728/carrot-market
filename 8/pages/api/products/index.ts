@@ -1,4 +1,4 @@
-import { withApiSession } from "@/libs/client/withSession";
+import { withApiSession } from "@/libs/server/withSession";
 import client from "@/libs/server/client";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -17,7 +17,6 @@ async function handler(
         },
       },
     });
-    console.log(products);
     res.json({ ok: true, products });
   }
   if (req.method === "POST") {
